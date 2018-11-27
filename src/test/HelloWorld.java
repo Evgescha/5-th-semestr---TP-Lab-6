@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/HelloWorld")
 public class HelloWorld extends HttpServlet {
+	 private int COUNT;
 	private static final long serialVersionUID = 1L;
 	private String emailSupport1;
     /**
@@ -37,7 +38,11 @@ public class HelloWorld extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-          
+    	   synchronized (this) {
+
+               COUNT++;
+
+           }
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
  
@@ -58,7 +63,7 @@ public class HelloWorld extends HttpServlet {
             for(String course: courses)
                 writer.println("<li>" + course + "</li>");
             
-            
+            writer.println("<h4>Request</h4>" + COUNT);
         } finally {
             writer.close();  
         }
